@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Ajax 2 - Local JSON</title>
+</head>
+<body>
+  <button id="button1">Get Address</button>
+  <button id="button2">Get URL</button>
+  <br><br>
+  <h1>name</h1>
+  <div id="name"></div>
+  <h1>URL</h1>
+  <div id="URL"></div>
+
+
+  <script>
+    document.getElementById('button2').addEventListener('click', loadURL);
+
+    function loadURL() {
+      var xhr = new XMLHttpRequest();
+      // xhr.open('GET', 'tester.json', true);
+      xhr.open('GET', './tester2.json', true);
+      
+      xhr.onload = function(){
+        if(this.status == 200){
+          var name = JSON.parse(this.responseText);
+          console.log(name.name) 
+
+          var output = '';
+          for(var i in name){
+            output += '<ul>' + 
+            '<li>Company: '+name[i].company+'</li>'+
+            '<li>Name: '+name[i].name.first+' '+name[i].name.last+'</li>'+
+            '<li>Age: '+name[i].age+'</li>'+
+            '</ul>';
+          }
+
+          document.getElementById('URL').innerHTML = output
+        }
+      }
+
+      xhr.send()
+    }
+
+  </script>
+
+</body>
+</html>
