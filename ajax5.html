@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Ajax 5 - Local JSON</title>
+  <link rel='stylesheet' href="index.css">
+</head>
+<body>
+  <!-- <button id="button1">Get Address</button> -->
+  <button id="button2">Get URL</button>
+  <br><br>
+  <button class="trigger">Clicker to trigger the modal!</button>
+  <!-- <h1>name</h1>
+  <div id="name"></div> -->
+  <div class="modal">
+    <div class="modal-content">
+    <!-- <div class="modal-content" id="URL"> -->
+      <span class="close-button">&times;</span>
+      <h1>Hello, I am a modal!</h1>
+    </div>
+  </div>
+  <h1>Cards:</h1>
+  <div id="URL"></div>
+
+
+  <script>
+    var modal = document.querySelector(".modal");
+    var trigger = document.querySelector(".trigger");
+    var closeButton = document.querySelector(".close-button");
+
+    function toggleModal() {
+      modal.classList.toggle("show-modal");
+    }
+
+    function windowOnClick(e){
+      if (event.target === modal) {
+        toggleModal();
+      }
+    }
+
+    trigger.addEventListener("click", toggleModal);
+    closeButton.addEventListener("click", toggleModal);
+    window.addEventListener("click", windowOnClick);
+
+    document.getElementById('button2').addEventListener('click', loadURL);
+
+    function loadURL() {
+      var xhr = new XMLHttpRequest();
+      // xhr.open('GET', 'tester.json', true);
+      xhr.open('GET', './address.json', true);
+      xhr.setRequestHeader('Content-Type', 'application/json');
+      xhr.onload = function(){
+        if(this.status == 200){
+          var address = JSON.parse(this.responseText);
+
+          var output = '';
+
+          for(var i in address){
+            output +=
+            '<ul>' + 
+              '<li>Name: '+address[i].name+'</li>'+
+              '<li>Address: '+address[i].address+'</li>'+
+              '<li>URL: '+address[i].url+'</li>'+
+            '</ul>';
+          }
+
+          document.getElementById('URL').innerHTML = output
+        }
+      }
+
+      xhr.send()
+    }
+
+  </script>
+
+</body>
+</html>
